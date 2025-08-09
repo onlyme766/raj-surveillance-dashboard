@@ -1,4 +1,5 @@
 body {
+<<<<<<< HEAD
   background: black;
   color: lime;
   font-family: monospace;
@@ -14,3 +15,22 @@ button {
   padding: 10px;
   margin-top: 10px;
 }
+=======
+  background-color: black;
+  color: lime;
+  font-family: monospace;
+  text-align: center;
+  padding: 20px;
+}
+video {
+  margin-top: 20px;
+  width: 300px;
+  border: 2px solid lime;
+}
+pre {
+  margin-top: 20px;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+>>>>>>> 6b0edac (Initial commit: RAJ Surveillance Dashboard)
