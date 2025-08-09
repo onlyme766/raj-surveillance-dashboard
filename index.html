@@ -1,61 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>🕶️ Raj Hacker Surveillance Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyBDT Casino</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      background-color: black;
-      color: lime;
-      font-family: monospace;
-      text-align: center;
-    }
-    video {
-      width: 300px;
-      border: 2px solid lime;
-    }
+    body { margin: 0; font-family: sans-serif; background: #111; color: #fff; }
+    header { background: #000; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { margin: 0; font-size: 1.5rem; color: #fff; }
+    .btn { background: limegreen; color: #000; padding: 0.5rem 1rem; border: none; cursor: pointer; }
+    .banner { background: #222; padding: 1rem; text-align: center; color: gold; font-size: 1.2rem; }
+    .menu { display: flex; justify-content: center; gap: 1rem; margin: 1rem 0; }
+    .menu a { color: #fff; text-decoration: none; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; padding: 1rem; }
+    .card { background: #333; padding: 1rem; border-radius: 8px; text-align: center; }
+    .card img { width: 100%; border-radius: 4px; }
+    .card button { margin-top: 0.5rem; background: #000; color: #fff; border: 1px solid limegreen; padding: 0.5rem; cursor: pointer; }
   </style>
 </head>
 <body>
-  <h1>🧠 Raj Hacker Surveillance Dashboard</h1>
-  <div id="ascii"></div>
-  <div id="battery"></div>
-  <div id="location"></div>
-  <video id="camera" autoplay></video>
+  <header>
+    <h1>MyBDT</h1>
+    <div>
+      <button class="btn">Login</button>
+      <button class="btn">Sign Up</button>
+    </div>
+  </header>
+
+  <div class="banner">
+    🎁 RACE WIN BONUS: <strong>300৳</strong> | WELCOME BONUS AVAILABLE!
+  </div>
+
+  <nav class="menu">
+    <a href="#">Slots</a>
+    <a href="#">Table Games</a>
+    <a href="#">Fishing</a>
+    <a href="#">Arcade</a>
+    <a href="#">Bingo</a>
+    <a href="#">Dice</a>
+  </nav>
+
+  <section class="grid">
+    <div class="card">
+      <img src="https://via.placeholder.com/200x120?text=Fortune+Gems" alt="Fortune Gems" />
+      <p>Fortune Gems</p>
+      <button onclick="launchGame('https://mortalsoftrandomslotapi.com/demo')">PLAY</button>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/200x120?text=Power+of+Thor" alt="Power of Thor" />
+      <p>Power of Thor Megaways</p>
+      <button onclick="launchGame('https://mortalsoftrandomslotapi.com/thor')">PLAY</button>
+    </div>
+    <!-- Add more cards as needed -->
+  </section>
 
   <script>
-    // 🔊 Voice Command
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.onresult = (e) => {
-      const cmd = e.results[0][0].transcript.toLowerCase();
-      if (cmd.includes("ascii")) {
-        document.getElementById("ascii").innerText = "🧠 ASCII Activated!";
-      }
-    };
-    recognition.start();
-
-    // 📸 Camera
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => document.getElementById("camera").srcObject = stream)
-      .catch(err => console.error("Camera error:", err));
-
-    // 🔋 Battery
-    navigator.getBattery().then(battery => {
-      document.getElementById("battery").innerText = `🔋 Battery: ${Math.round(battery.level * 100)}%`;
-    });
-
-    // 🌍 Location
-    navigator.geolocation.getCurrentPosition(pos => {
-      const { latitude, longitude } = pos.coords;
-      document.getElementById("location").innerText = `🌍 Location: ${latitude.toFixed(2)}, ${longitude.toFixed(2)}`;
-    });
-
-    // 🧠 ASCII Art
-    document.getElementById("ascii").innerText = `
-      ▄︻̷̿┻̿═━一  Raj Surveillance Activated
-      [██████████████████████]
-      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-    `;
+    function launchGame(url) {
+      window.open(url, '_blank');
+    }
   </script>
 </body>
 </html>
