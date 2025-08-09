@@ -64,13 +64,9 @@
 
   <!-- Voice Trigger -->
   <script>
-    // Boot fade out
-    setTimeout(() => {
-      document.getElementById('boot').style.display = 'none';
-    }, 4000);
-
-    // Camera feed
-    navigator.mediaDevices.getUserMedia({ video: true })
+    // Boot fadeoutt
+    // Keep boot message visible
+document.getElementById('boot').style.opacity = 1;display navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => document.getElementById('cam').srcObject = stream);
 
     // Voice trigger
