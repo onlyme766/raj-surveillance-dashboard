@@ -1,1 +1,94 @@
-<!DOCTYPE html><html><head><title>RAJ Surveillance</title></head><body><h1>🕶️ Surveillance Dashboard</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RAJ Surveillance Dashboard</title>
+  <style>
+    body {
+      background-color: black;
+      color: lime;
+      font-family: monospace;
+      margin: 0;
+      padding: 0;
+    }
+    #boot {
+      padding: 20px;
+      font-size: 1.2em;
+      white-space: pre-wrap;
+      animation: fadeOut 4s forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; display: none; }
+    }
+    #cam {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 160px;
+      border: 2px solid lime;
+      box-shadow: 0 0 10px lime;
+    }
+    #ascii {
+      padding: 20px;
+      font-size: 1.1em;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Boot Animation -->
+  <div id="boot">
+    Initializing RAJverse...<br>
+    Loading modules: voice, camera, ASCII, alerts...<br>
+    Status: 🔥 Online<br>
+  </div>
+
+  <!-- ASCII Intro -->
+  <div id="ascii">
+    <pre>
+██████╗  █████╗      ██╗ ██████╗      ██████╗ 
+██╔══██╗██╔══██╗     ██║██╔═══██╗    ██╔═══██╗
+██████╔╝███████║     ██║██║   ██║    ██║   ██║
+██╔═══╝ ██╔══██║██   ██║██║   ██║    ██║   ██║
+██║     ██║  ██║╚█████╔╝╚██████╔╝    ╚██████╔╝
+╚═╝     ╚═╝  ╚═╝ ╚════╝  ╚═════╝      ╚═════╝ 
+🔥 RAHIM UNIVERSE SYSTEM ACTIVATED 🔥
+    </pre>
+  </div>
+
+  <!-- Camera Overlay -->
+  <video id="cam" autoplay muted></video>
+
+  <!-- Voice Trigger -->
+  <script>
+    // Boot fade out
+    setTimeout(() => {
+      document.getElementById('boot').style.display = 'none';
+    }, 4000);
+
+    // Camera feed
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => document.getElementById('cam').srcObject = stream);
+
+    // Voice trigger
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.onresult = (event) => {
+        const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
+        if (transcript.includes("activate universe")) {
+          document.getElementById('ascii').style.display = 'block';
+        }
+      };
+      recognition.start();
+    } else {
+      console.log("Voice recognition not supported");
+    }
+  </script>
+
+</body>
+</html>
