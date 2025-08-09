@@ -3,61 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyBDT Casino</title>
+  <title>MyBDT Income Portal</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body { margin: 0; font-family: sans-serif; background: #111; color: #fff; }
-    header { background: #000; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
-    header h1 { margin: 0; font-size: 1.5rem; color: #fff; }
-    .btn { background: limegreen; color: #000; padding: 0.5rem 1rem; border: none; cursor: pointer; }
-    .banner { background: #222; padding: 1rem; text-align: center; color: gold; font-size: 1.2rem; }
-    .menu { display: flex; justify-content: center; gap: 1rem; margin: 1rem 0; }
-    .menu a { color: #fff; text-decoration: none; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; padding: 1rem; }
-    .card { background: #333; padding: 1rem; border-radius: 8px; text-align: center; }
-    .card img { width: 100%; border-radius: 4px; }
-    .card button { margin-top: 0.5rem; background: #000; color: #fff; border: 1px solid limegreen; padding: 0.5rem; cursor: pointer; }
-  </style>
 </head>
 <body>
   <header>
-    <h1>MyBDT</h1>
-    <div>
-      <button class="btn">Login</button>
-      <button class="btn">Sign Up</button>
-    </div>
+    <h1>💼 MyBDT Income Dashboard</h1>
+    <button onclick="openLogin()">Login</button>
   </header>
 
-  <div class="banner">
-    🎁 RACE WIN BONUS: <strong>300৳</strong> | WELCOME BONUS AVAILABLE!
-  </div>
-
-  <nav class="menu">
-    <a href="#">Slots</a>
-    <a href="#">Table Games</a>
-    <a href="#">Fishing</a>
-    <a href="#">Arcade</a>
-    <a href="#">Bingo</a>
-    <a href="#">Dice</a>
-  </nav>
+  <section class="banner">
+    <p>🎉 Earn ৳500 by completing verified tasks!</p>
+  </section>
 
   <section class="grid">
     <div class="card">
-      <img src="https://via.placeholder.com/200x120?text=Fortune+Gems" alt="Fortune Gems" />
-      <p>Fortune Gems</p>
-      <button onclick="launchGame('https://mortalsoftrandomslotapi.com/demo')">PLAY</button>
+      <h2>USD → BDT</h2>
+      <p>Current Rate: ৳121.00</p>
+      <small>Updated live from FX Spot</small>
     </div>
     <div class="card">
-      <img src="https://via.placeholder.com/200x120?text=Power+of+Thor" alt="Power of Thor" />
-      <p>Power of Thor Megaways</p>
-      <button onclick="launchGame('https://mortalsoftrandomslotapi.com/thor')">PLAY</button>
+      <h2>Survey Earnings</h2>
+      <p>Complete 3 surveys to earn ৳150</p>
+      <button>Start Surveys</button>
     </div>
-    <!-- Add more cards as needed -->
+    <div class="card">
+      <h2>Crypto Pulse</h2>
+      <p>BTC → ৳13,833,971 | ETH → ৳436,352</p>
+      <button>Track More</button>
+    </div>
   </section>
 
+  <footer>
+    <p>© 2025 MyBDT | Powered by RAJ</p>
+  </footer>
+
+  <!-- Login Modal -->
+  <div id="loginModal" style="display:none;">
+    <h3>Login to MyBDT</h3>
+    <input type="text" placeholder="Email" />
+    <input type="password" placeholder="Password" />
+    <button>Login</button>
+    <button onclick="closeLogin()">Close</button>
+  </div>
+
   <script>
-    function launchGame(url) {
-      window.open(url, '_blank');
+    function openLogin() {
+      document.getElementById('loginModal').style.display = 'block';
+    }
+    function closeLogin() {
+      document.getElementById('loginModal').style.display = 'none';
     }
   </script>
 </body>
