@@ -1,59 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+  <title>RB INVESTMENT WORLD</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyBDT Income Portal</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f0f4f8;
+      color: #333;
+      padding: 20px;
+    }
+    input, select {
+      margin: 10px;
+      padding: 10px;
+      width: 250px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #0077cc;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    #dashboard, #income-module {
+      display: none;
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>💼 MyBDT Income Dashboard</h1>
-    <button onclick="openLogin()">Login</button>
-  </header>
+  <h1>RB INVESTMENT WORLD</h1>
 
-  <section class="banner">
-    <p>🎉 Earn ৳500 by completing verified tasks!</p>
-  </section>
+  <div id="auth-section">
+    <h2>Sign Up</h2>
+    <input type="email" id="signup-email" placeholder="Email" />
+    <input type="password" id="signup-password" placeholder="Password" />
+    <button onclick="signUp()">Sign Up</button>
 
-  <section class="grid">
-    <div class="card">
-      <h2>USD → BDT</h2>
-      <p>Current Rate: ৳121.00</p>
-      <small>Updated live from FX Spot</small>
-    </div>
-    <div class="card">
-      <h2>Survey Earnings</h2>
-      <p>Complete 3 surveys to earn ৳150</p>
-      <button>Start Surveys</button>
-    </div>
-    <div class="card">
-      <h2>Crypto Pulse</h2>
-      <p>BTC → ৳13,833,971 | ETH → ৳436,352</p>
-      <button>Track More</button>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2025 MyBDT | Powered by RAJ</p>
-  </footer>
-
-  <!-- Login Modal -->
-  <div id="loginModal" style="display:none;">
-    <h3>Login to MyBDT</h3>
-    <input type="text" placeholder="Email" />
-    <input type="password" placeholder="Password" />
-    <button>Login</button>
-    <button onclick="closeLogin()">Close</button>
+    <h2>Log In</h2>
+    <input type="email" id="login-email" placeholder="Email" />
+    <input type="password" id="login-password" placeholder="Password" />
+    <button onclick="logIn()">Log In</button>
   </div>
 
-  <script>
-    function openLogin() {
-      document.getElementById('loginModal').style.display = 'block';
+  <div id="dashboard">
+    <h2>Welcome to your Dashboard</h2>
+    <p id="user-email"></p>
+    <button onclick="logOut()">Log Out</button>
+
+    <div id="income-module">
+      <h3>💰 Income Estimator</h3>
+      <select id="income-type">
+        <option value="survey">Survey Earnings</option>
+        <option value="investment">Investment Returns</option>
+        <option value="tools">Tool Monetization</option>
+      </select>
+      <input type="number" id="amount" placeholder="Amount (BDT)" />
+      <button onclick="calculateIncome()">Estimate</button>
+      <p id="income-result"></p>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-auth.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD48Cd7DFqnXMcM3gJWAaRwGuRD3g1MdxM",
+      authDomain: "rb-investment-world.firebaseapp.com",
+      projectId: "rb-investment-world",
+      storageBucket: "rb-investment-world.appspot.com",
+      appId: "1:213565419603:android:767836b45bc76ea7bf16a6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.signUp = function () {
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert("Signup successful!");
+          showDashboard();
+        })
+        .catch(error => alert(error.message));
+    };
+
+    window.logIn = function () {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert("Login successful!");
+          showDashboard();
+        })
+        .catch(error => alert(error.message));
+    };
+
+    window.logOut = function () {
+      signOut(auth).then(() => {
+        document.getElementById("dashboard").style.display = "none";
+        document.getElementById("auth-section").style.display = "block";
+      });
+    };
+
+    function showDashboard() {
+      document.getElementById("auth-section").style.display = "none";
+      document.getElementById("dashboard").style.display = "block";
+      document.getElementById("income-module").style.display = "block";
     }
-    function closeLogin() {
-      document.getElementById('loginModal').style.display = 'none';
+
+    window.calculateIncome = function () {
+      const type = document.getElementById("income-type").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+      let result = 0;
+      if (type === "survey") result = amount * 0.15;
+      else if (type === "investment") result = amount * 0.10;
+      else if (type === "tools") result = amount * 0.20;
+      document.getElementById("income-result").textContent = `Estimated Monthly Income: ৳${result.toFixed(2)}`;
     }
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        document.getElementById("user-email").textContent = `Logged in as: ${user.email}`;
+        showDashboard();
+      }
+    });
   </script>
 </body>
 </html>
