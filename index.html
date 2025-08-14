@@ -1,76 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bdnews247</title>
-
-  <!-- AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6931965126230412"
-     crossorigin="anonymous"></script>
-
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBQEZ0WIG92RzwI6e6TnBmTp4MgrYSMLBs",
-      authDomain: "news247-64290.firebaseapp.com",
-      databaseURL: "https://news247-64290-default-rtdb.firebaseio.com",
-      projectId: "news247-64290",
-      storageBucket: "news247-64290.appspot.com",
-      messagingSenderId: "86736515101",
-      appId: "1:86736515101:web:061d198e92e4b46c3956f4",
-      measurementId: "G-BK7QNFZT96"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    onValue(ref(db, "news"), (snapshot) => {
-      const newsList = snapshot.val();
-      document.getElementById("news-feed").innerHTML = Object.values(newsList)
-        .map(item => `<h3>${item.title}</h3><p>${item.content}</p>`)
-        .join("");
-    });
-  </script>
-
+  <meta charset="UTF-8">
+  <title>bdnews247 Live News</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-      background: #f9f9f9;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-    h3 {
-      margin-top: 20px;
-      color: #0077cc;
-    }
-    p {
-      font-size: 1em;
-      color: #444;
-    }
+    body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+    h1 { color: #d60000; }
+    .news-item { margin-bottom: 20px; padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 0 5px #ccc; }
+    .news-item h3 { margin: 0; color: #333; }
+    .news-item p { margin: 5px 0 0; color: #555; }
   </style>
 </head>
 <body>
   <h1>bdnews247 Live News</h1>
-  <div id="news-feed">Loading news...</div>
+  <div id="news">Loading news...</div>
 
-  <!-- Ad Block -->
-  <ins class="adsbygoogle"
-       style="display:block; margin-top:30px;"
-       data-ad-client="ca-pub-6931965126230412"
-       data-ad-slot="1234567890"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
   <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    const dbRef = firebase.database().ref("news");
+    dbRef.once("value", (snapshot) => {
+      const newsContainer = document.getElementById("news");
+      newsContainer.innerHTML = "";
+      snapshot.forEach((childSnapshot) => {
+        const newsItem = childSnapshot.val();
+        const div = document.createElement("div");
+        div.className = "news-item";
+        div.innerHTML = `<h3>${newsItem.title}</h3><p>${newsItem.content}</p>`;
+        newsContainer.appendChild(div);
+      });
+    });
   </script>
 </body>
 </html>
