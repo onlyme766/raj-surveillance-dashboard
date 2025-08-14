@@ -1,23 +1,26 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-  <meta charset="UTF-8">
-  <title>BDNews247 | সর্বশেষ খবর</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header><h1>📰 BDNews247</h1></header>
-  <main>
-    <section>
-      <h2>বাংলা সংবাদ</h2>
-      <p>আজকের আবহাওয়ার পূর্বাভাস অনুযায়ী ঢাকায় ভারী বৃষ্টিপাত হতে পারে।</p>
-    </section>
-    <section>
-      <h2>English News</h2>
-      <p>Global markets rallied today after positive economic data.</p>
-    </section>
-  </main>
-</body>
-</html>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "bdnews247.firebaseapp.com",
+    databaseURL: "https://bdnews247.firebaseio.com",
+    projectId: "bdnews247",
+    storageBucket: "bdnews247.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  const db = firebase.database();
+  db.ref("banglaNews").on("value", (snapshot) => {
+    document.getElementById("bangla-news").innerText = snapshot.val();
+  });
+  db.ref("englishNews").on("value", (snapshot) => {
+    document.getElementById("english-news").innerText = snapshot.val();
+  });
+</script>
+
 
