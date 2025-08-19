@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Raj Surveillance Dashboard</title>
+  <title>Raj Surveillance: Live Edition</title>
   <style>
     body {
       background-color: black;
       color: #00ff99;
       font-family: 'Courier New', monospace;
       margin: 0;
-      padding: 0;
     }
     header {
       background-color: #111;
@@ -18,6 +17,10 @@
       text-align: center;
       font-size: 1.5em;
       border-bottom: 2px solid #00ff99;
+    }
+    #clock {
+      font-size: 1em;
+      color: #ffcc00;
     }
     nav {
       display: flex;
@@ -53,7 +56,11 @@
   </style>
 </head>
 <body>
-  <header>Raj Surveillance Dashboard 🧠</header>
+  <header>
+    Raj Surveillance Dashboard 🧠  
+    <div id="clock">🕒 Loading time...</div>
+  </header>
+
   <nav>
     <button onclick="navigate('home')">Home</button>
     <button onclick="navigate('threats')">Threats</button>
@@ -76,13 +83,13 @@
   </section>
 
   <section id="cve">
-    <div class="log">🧠 CVE-2025-12345: Remote code execution in XYZ</div>
-    <div class="log">🧠 CVE-2025-67890: Privilege escalation in ABC</div>
+    <div class="log">📡 Fetching latest CVEs...</div>
+    <div id="cve-feed"></div>
   </section>
 
   <section id="ip">
-    <div class="log">📡 103.21.244.0 — Bangladesh ISP</div>
-    <div class="log">📡 185.107.56.0 — Suspicious VPN</div>
+    <div class="log">📍 Tracking your IP...</div>
+    <div id="ip-log"></div>
   </section>
 
   <section id="report">
@@ -95,6 +102,32 @@
       document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
     }
+
+    // Live Clock
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById("clock").textContent =
+        "🕒 " + now.toLocaleTimeString();
+    }, 1000);
+
+    // CVE Feed
+    fetch("https://cve.circl.lu/api/last")
+      .then(res => res.json())
+      .then(data => {
+        const feed = document.getElementById("cve-feed");
+        feed.innerHTML = "";
+        data.slice(0, 5).forEach(cve => {
+          feed.innerHTML += `<div class="log">🧠 ${cve.id}: ${cve.summary}</div>`;
+        });
+      });
+
+    // IP Tracker
+    fetch("https://ipinfo.io/json?token=YOUR_TOKEN")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("ip-log").innerHTML = `
+          <div class="log">IP: ${data.ip} — ${data.city}, ${data.country} (${data.org})</div>`;
+      });
   </script>
 </body>
 </html>
