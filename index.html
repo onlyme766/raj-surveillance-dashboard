@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Raj Surveillance Dashboard</title>
   <style>
     body {
@@ -12,109 +12,89 @@
       margin: 0;
       padding: 0;
     }
-    .menu-bar {
+    header {
+      background-color: #111;
+      padding: 10px;
+      text-align: center;
+      font-size: 1.5em;
+      border-bottom: 2px solid #00ff99;
+    }
+    nav {
       display: flex;
-      justify-content: space-around;
-      background: #111;
-      border-bottom: 2px solid lime;
-      padding: 10px;
+      justify-content: center;
+      background-color: #222;
+      border-bottom: 1px solid #00ff99;
     }
-    .menu-bar button {
-      background: #222;
-      color: lime;
+    nav button {
+      background: none;
       border: none;
-      padding: 10px;
+      color: #00ff99;
+      padding: 10px 20px;
       cursor: pointer;
-      font-weight: bold;
+      font-size: 1em;
     }
-    .section {
+    nav button:hover {
+      background-color: #00ff99;
+      color: black;
+    }
+    section {
       display: none;
       padding: 20px;
     }
-    .active {
+    section.active {
       display: block;
     }
-    .log-entry {
-      background: #111;
-      margin: 5px 0;
-      padding: 8px;
-      border-left: 4px solid red;
+    .log {
+      background-color: #000;
+      padding: 10px;
+      border: 1px solid #00ff99;
+      margin-bottom: 10px;
     }
-    .cve { color: #ffcc00; }
-    .ip { color: #00ffff; }
   </style>
 </head>
 <body>
-
-  <div class="menu-bar">
+  <header>Raj Surveillance Dashboard 🧠</header>
+  <nav>
     <button onclick="navigate('home')">Home</button>
-    <button onclick="navigate('threats')">Threat Logs</button>
+    <button onclick="navigate('threats')">Threats</button>
     <button onclick="navigate('cve')">CVE Feed</button>
     <button onclick="navigate('ip')">IP Tracker</button>
-    <button onclick="navigate('contact')">Contact</button>
-  </div>
+    <button onclick="navigate('report')">Report</button>
+  </nav>
 
-  <div id="home" class="section active">
-    <h2>🧠 Raj Surveillance</h2>
-    <p>Initializing terminal...</p>
-    <p>Scanning ports...</p>
-    <p>Detecting anomalies...</p>
-    <p>Threat log updated.</p>
-  </div>
+  <section id="home" class="active">
+    <div class="log">Raj@Surveillance:~$ Initializing terminal...</div>
+    <div class="log">Raj@Surveillance:~$ Scanning ports...</div>
+    <div class="log">Raj@Surveillance:~$ Detecting anomalies...</div>
+  </section>
 
-  <div id="threats" class="section">
-    <h3>🚨 Threat Logs</h3>
-    <div class="log-entry">🔴 SQL Injection attempt blocked</div>
-    <div class="log-entry">🟡 XSS payload detected</div>
-    <div class="log-entry">🟢 Port scan from 185.107.56.0</div>
-  </div>
+  <section id="threats">
+    <div class="log">🚨 SQL Injection attempt blocked</div>
+    <div class="log">🚨 XSS payload detected</div>
+    <div class="log">🚨 Unauthorized access denied</div>
+    <div class="log">🚨 Port scan from suspicious IP</div>
+  </section>
 
-  <div id="cve" class="section">
-    <h3>📡 Latest CVEs</h3>
-    <div id="cve-feed">Loading CVEs...</div>
-  </div>
+  <section id="cve">
+    <div class="log">🧠 CVE-2025-12345: Remote code execution in XYZ</div>
+    <div class="log">🧠 CVE-2025-67890: Privilege escalation in ABC</div>
+  </section>
 
-  <div id="ip" class="section">
-    <h3>🌍 IP Tracker</h3>
-    <div id="ip-log">Tracking IP...</div>
-  </div>
+  <section id="ip">
+    <div class="log">📡 103.21.244.0 — Bangladesh ISP</div>
+    <div class="log">📡 185.107.56.0 — Suspicious VPN</div>
+  </section>
 
-  <div id="contact" class="section">
-    <h3>📞 Contact</h3>
-    <p>Email: rajsurveillance@protonmail.com</p>
-    <p>Telegram: @RajSurveillance</p>
-    <p>GitHub: github.com/onlyme766</p>
-  </div>
+  <section id="report">
+    <div class="log">📤 Submit vulnerability report</div>
+    <button onclick="alert('Report submitted!')">Send Report</button>
+  </section>
 
   <script>
     function navigate(id) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
     }
-
-    // CVE Feed
-    fetch("https://cve.circl.lu/api/last")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("cve-feed").innerHTML = "";
-        data.slice(0, 5).forEach(cve => {
-          document.getElementById("cve-feed").innerHTML += `
-            <div class="log-entry cve">
-              <strong>${cve.id}</strong>: ${cve.summary}
-            </div>`;
-        });
-      });
-
-    // IP Tracker
-    fetch("https://ipinfo.io/json?token=YOUR_TOKEN")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("ip-log").innerHTML = `
-          <div class="log-entry ip">
-            IP: ${data.ip} — ${data.city}, ${data.country} (${data.org})
-          </div>`;
-      });
   </script>
-
 </body>
 </html>
