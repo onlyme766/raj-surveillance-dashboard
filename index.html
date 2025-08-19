@@ -1,26 +1,214 @@
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Raj Surveillance Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background-color: #000;
+      color: #0f0;
+      font-family: monospace;
+      padding: 10px;
+    }
+    h1, h3 { text-align: center; }
+    .terminal {
+      background: #111;
+      padding: 10px;
+      border: 1px solid #0f0;
+      height: 150px;
+      overflow-y: auto;
+    }
+    #breach-alert {
+      background: red;
+      color: white;
+      font-weight: bold;
+      padding: 10px;
+      text-align: center;
+      animation: flash 1s infinite;
+    }
+    @keyframes flash {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+    .dark-mode {
+      background-color: #000;
+      color: #0f0;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 5px 0;
+      padding: 8px;
+      background: #222;
+      color: #0f0;
+      border: 1px solid #0f0;
+    }
+    img { display: block; margin: auto; }
+    marquee {
+      background: #111;
+      padding: 5px;
+      border: 1px solid #0f0;
+    }
+    ul { list-style: square; }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif') center center / cover;
+      opacity: 0.1;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
 
-<script>
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "bdnews247.firebaseapp.com",
-    databaseURL: "https://bdnews247.firebaseio.com",
-    projectId: "bdnews247",
-    storageBucket: "bdnews247.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
-  firebase.initializeApp(firebaseConfig);
+  <!-- 🔊 Welcome Sound -->
+  <audio id="welcome-audio" autoplay>
+    <source src="https://files.catbox.moe/3z1x9m.mp3" type="audio/mpeg">
+  </audio>
+  <script>
+    window.onload = function() {
+      alert("🧠 Welcome, Operative Raj. Surveillance systems online.");
+      document.getElementById("welcome-audio").play();
+    };
+  </script>
 
-  const db = firebase.database();
-  db.ref("banglaNews").on("value", (snapshot) => {
-    document.getElementById("bangla-news").innerText = snapshot.val();
-  });
-  db.ref("englishNews").on("value", (snapshot) => {
-    document.getElementById("english-news").innerText = snapshot.val();
-  });
-</script>
+  <!-- 🖱️ Click Sound -->
+  <audio id="click-audio">
+    <source src="https://files.catbox.moe/3z1x9m.mp3" type="audio/mpeg">
+  </audio>
+  <script>
+    document.addEventListener("click", function() {
+      document.getElementById("click-audio").play();
+    });
+  </script>
+
+  <h1>🧠 Raj Surveillance Dashboard</h1>
+
+  <!-- 🔐 Hacker Login -->
+  <h3>🔐 Hacker Login</h3>
+  <input type="text" placeholder="Username">
+  <input type="password" placeholder="Password">
+  <button onclick="alert('Access Granted')">Access Dashboard</button>
+
+  <!-- 🕒 Live Clock -->
+  <h3>🕒 Live Clock</h3>
+  <div id="clock"></div>
+  <script>
+    setInterval(() => {
+      document.getElementById("clock").innerText = new Date().toLocaleTimeString();
+    }, 1000);
+  </script>
+
+  <!-- 💻 Terminal Animation -->
+  <h3>💻 Terminal</h3>
+  <div class="terminal" id="terminal"></div>
+  <script>
+    const lines = [
+      "Raj@Surveillance:~$ Initializing terminal...",
+      "Raj@Surveillance:~$ Scanning ports...",
+      "Raj@Surveillance:~$ Detecting anomalies...",
+      "Raj@Surveillance:~$ Threat log updated.",
+      "Raj@Surveillance:~$ Monitoring CVEs...",
+      "Raj@Surveillance:~$ IP tracker active..."
+    ];
+    let i = 0;
+    setInterval(() => {
+      const term = document.getElementById("terminal");
+      term.innerHTML += lines[i % lines.length] + "<br>";
+      term.scrollTop = term.scrollHeight;
+      i++;
+    }, 1000);
+  </script>
+
+  <!-- 🔴 Breach Alert -->
+  <div id="breach-alert">⚠️ Breach Detected: SQL Injection Attempt!</div>
+
+  <!-- 📡 CVE Feed -->
+  <h3>📡 CVE Feed</h3>
+  <marquee behavior="scroll" direction="left">
+    CVE-2025-12345: RCE in XYZ | CVE-2025-67890: Priv Esc in ABC | CVE-2025-99999: Buffer Overflow in DEF
+  </marquee>
+
+  <!-- 🛡️ Threat Logs -->
+  <h3>🛡️ Threat Logs</h3>
+  <ul>
+    <li>SQL Injection attempt blocked</li>
+    <li>XSS payload detected</li>
+    <li>Unauthorized access denied</li>
+    <li>Port scan from suspicious IP</li>
+  </ul>
+
+  <!-- 🌐 IP Tracker -->
+  <h3>🌐 IP Tracker</h3>
+  <ul>
+    <li>103.21.244.0 — Bangladesh ISP</li>
+    <li>185.107.56.0 — Suspicious VPN</li>
+  </ul>
+
+  <!-- 🔥 Live Threat Feed -->
+  <h3>🔥 Live Threat Feed</h3>
+  <div id="threat-feed" style="background:#111; padding:10px; border:1px solid #0f0;"></div>
+  <script>
+    const threats = [
+      "🔓 SQL Injection attempt from 185.107.56.0",
+      "🛑 XSS payload detected in /login.php",
+      "⚠️ Port scan from 103.21.244.0",
+      "🚨 Brute force attack blocked on /admin",
+      "🧨 CVE-2025-12345 exploit attempt detected"
+    ];
+    let t = 0;
+    setInterval(() => {
+      document.getElementById("threat-feed").innerHTML = threats[t % threats.length];
+      t++;
+    }, 3000);
+  </script>
+
+  <!-- 🧾 Exploit Log Terminal -->
+  <h3>🧾 Exploit Log</h3>
+  <div class="terminal" id="exploit-log" style="height:120px;"></div>
+  <script>
+    const logs = [
+      "Raj@Exploit:~$ nmap -p- 185.107.56.0",
+      "Raj@Exploit:~$ sqlmap -u 'site.com?id=1' --dbs",
+      "Raj@Exploit:~$ curl -X POST /vuln/report",
+      "Raj@Exploit:~$ CVE-2025-67890 exploit launched",
+      "Raj@Exploit:~$ Patch status: MISSING"
+    ];
+    let e = 0;
+    setInterval(() => {
+      const el = document.getElementById("exploit-log");
+      el.innerHTML += logs[e % logs.length] + "<br>";
+      el.scrollTop = el.scrollHeight;
+      e++;
+    }, 2000);
+  </script>
+
+  <!-- 🎛️ System Status -->
+  <h3>🎛️ System Status</h3>
+  <ul>
+    <li>🟢 Firewall: ACTIVE</li>
+    <li>🔴 IDS: ALERT MODE</li>
+    <li>🟡 Honeypot: ENGAGED</li>
+    <li>🟢 CVE Scanner: RUNNING</li>
+  </ul>
+
+  <!-- 🧾 Vulnerability Submission Form -->
+  <h3>🧾 Submit Vulnerability</h3>
+  <form>
+    <input type="text" placeholder="Your Name">
+    <input type="text" placeholder="Vulnerability Title">
+    <textarea placeholder="Description"></textarea>
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- 🔐 QR Code Login -->
+  <h3>🔐 QR Code Login</h3>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://onlyme766.github.io/raj-surveillance-dashboard/&size=150x150">
+
+  <!-- 🎭 Theme Switcher -->
+  <button onclick="document.body.classList.toggle('dark-mode')">
 
 
