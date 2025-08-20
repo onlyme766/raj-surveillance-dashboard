@@ -1,112 +1,40 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <title>🛡️ Admin Panel - News247</title>
-  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-database.js"></script>
-  <style>
-    body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
-    .section { margin-bottom: 30px; padding: 15px; background: #fff; border-radius: 8px; box-shadow: 0 0 5px #ccc; }
-    input, textarea, button { display: block; margin: 10px 0; padding: 8px; width: 100%; max-width: 500px; }
-    .news-item { border: 1px solid #ddd; padding: 10px; margin: 10px 0; background: #fefefe; }
-    .logo { max-height: 60px; margin-top: 10px; }
-  </style>
+  <meta charset="UTF-8">
+  <title>Admin Panel - News247</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="firebase-config.js"></script>
 </head>
 <body>
-  <h1>🛡️ Admin Panel</h1>
-
-  <div class="section upload-section">
-    <h2>📰 নতুন নিউজ আপলোড</h2>
-    <input type="text" id="title" placeholder="নিউজ শিরোনাম" />
-    <textarea id="content" placeholder="নিউজ কন্টেন্ট"></textarea>
-    <input type="text" id="image" placeholder="ছবির URL" />
-    <input type="text" id="video" placeholder="ভিডিওর URL" />
-    <button onclick="addNews()">✅ আপলোড করো</button>
+  <div id="loginSection">
+    <h3>🔐 এডমিন লগইন করুন</h3>
+    <input type="email" id="adminEmail" placeholder="ইমেইল"><br><br>
+    <input type="password" id="adminPass" placeholder="পাসওয়ার্ড"><br><br>
+    <button onclick="adminLogin()">লগইন</button>
+    <p id="loginStatus"></p>
   </div>
 
-  <div class="section manage-section">
-    <h2>📋 সব নিউজ</h2>
-    <div id="newsContainer"></div>
+  <div id="adminPanel" style="display:none;">
+    <h2>📰 নিউজ আপলোড করুন</h2>
+    <input type="text" id="title" placeholder="নিউজ শিরোনাম"><br><br>
+    <textarea id="content" placeholder="নিউজ বিস্তারিত"></textarea><br><br>
+    <select id="category">
+      <option value="জাতীয়">জাতীয়</option>
+      <option value="আন্তর্জাতিক">আন্তর্জাতিক</option>
+      <option value="খেলাধুলা">খেলাধুলা</option>
+    </select><br><br>
+    <label>📷 ছবি আপলোড:</label>
+    <input type="file" id="imageUpload"><br><br>
+    <label>🎥 ভিডিও আপলোড:</label>
+    <input type="file" id="videoUpload"><br><br>
+    <button onclick="uploadNews()">✅ আপলোড করুন</button>
+    <p id="status"></p>
   </div>
 
-  <script>
-    // ✅ Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBQEZ0WIG92RzwI6e6TnBmTp4MgrYSMLBs",
-      authDomain: "news247-64290.firebaseapp.com",
-      databaseURL: "https://news247-64290-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "news247-64290",
-      storageBucket: "news247-64290.firebasestorage.app",
-      messagingSenderId: "86736515101",
-      appId: "1:86736515101:web:061d198e92e4b46c3956f4",
-      measurementId: "G-BK7QNFZT96"
-    };
-
-    // 🔥 Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    // ✅ Add News
-    function addNews() {
-      const title = document.getElementById("title").value;
-      const content = document.getElementById("content").value;
-      const image = document.getElementById("image").value;
-      const video = document.getElementById("video").value;
-
-      const newRef = db.ref("news").push();
-      newRef.set({
-        title,
-        content,
-        image,
-        video,
-        published: true,
-        timestamp: Date.now()
-      });
-
-      document.getElementById("title").value = "";
-      document.getElementById("content").value = "";
-      document.getElementById("image").value = "";
-      document.getElementById("video").value = "";
-    }
-
-    // ✅ Load News
-    function loadNews() {
-      const container = document.getElementById("newsContainer");
-      container.innerHTML = "";
-
-      db.ref("news").on("value", snapshot => {
-        container.innerHTML = "";
-        snapshot.forEach(child => {
-          const data = child.val();
-          const key = child.key;
-          const div = document.createElement("div");
-          div.className = "news-item";
-          div.innerHTML = `
-            <h3>${data.title}</h3>
-            <p>${data.content}</p>
-            <p>📸 ছবি: ${data.image || "নেই"} | 🎥 ভিডিও: ${data.video || "নেই"}</p>
-            <p>স্ট্যাটাস: ${data.published ? "✅ পাবলিশড" : "⛔ আনপাবলিশড"}</p>
-            <button onclick="togglePublish('${key}', ${!data.published})">📤 ${data.published ? "আনপাবলিশ" : "পাবলিশ"}</button>
-            <button onclick="deleteNews('${key}')">🗑️ ডিলিট</button>
-          `;
-          container.appendChild(div);
-        });
-      });
-    }
-
-    // ✅ Toggle Publish
-    function togglePublish(key, status) {
-      db.ref("news/" + key).update({ published: status });
-    }
-
-    // ✅ Delete News
-    function deleteNews(key) {
-      db.ref("news/" + key).remove();
-    }
-
-    // ✅ Initial Load
-    window.onload = loadNews;
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
