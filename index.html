@@ -1,133 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Raj Surveillance: Live Edition</title>
-  <style>
-    body {
-      background-color: black;
-      color: #00ff99;
-      font-family: 'Courier New', monospace;
-      margin: 0;
-    }
-    header {
-      background-color: #111;
-      padding: 10px;
-      text-align: center;
-      font-size: 1.5em;
-      border-bottom: 2px solid #00ff99;
-    }
-    #clock {
-      font-size: 1em;
-      color: #ffcc00;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #222;
-      border-bottom: 1px solid #00ff99;
-    }
-    nav button {
-      background: none;
-      border: none;
-      color: #00ff99;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-size: 1em;
-    }
-    nav button:hover {
-      background-color: #00ff99;
-      color: black;
-    }
-    section {
-      display: none;
-      padding: 20px;
-    }
-    section.active {
-      display: block;
-    }
-    .log {
-      background-color: #000;
-      padding: 10px;
-      border: 1px solid #00ff99;
-      margin-bottom: 10px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>news247 | সর্বশেষ খবর</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    Raj Surveillance Dashboard 🧠  
-    <div id="clock">🕒 Loading time...</div>
+    <h1>🕶️ news247</h1>
+    <nav>
+      <a href="#">হোম</a>
+      <a href="#">বিনোদন</a>
+      <a href="#">রাজনীতি</a>
+      <a href="#">টেক</a>
+      <a href="admin/index.html">🛡️ Admin</a>
+    </nav>
   </header>
 
-  <nav>
-    <button onclick="navigate('home')">Home</button>
-    <button onclick="navigate('threats')">Threats</button>
-    <button onclick="navigate('cve')">CVE Feed</button>
-    <button onclick="navigate('ip')">IP Tracker</button>
-    <button onclick="navigate('report')">Report</button>
-  </nav>
+  <main>
+    <article>
+      <h2>🔥 আজকের হেডলাইন</h2>
+      <img src="https://via.placeholder.com/800x300" alt="নিউজ ইমেজ">
+      <p class="meta">লেখক: Raj | তারিখ: ২১ আগস্ট ২০২৫</p>
+      <p>এখানে নিউজ কনটেন্ট থাকবে। চাইলে Firebase DB দিয়ে dynamic করে নিতে পারো।</p>
+    </article>
 
-  <section id="home" class="active">
-    <div class="log">Raj@Surveillance:~$ Initializing terminal...</div>
-    <div class="log">Raj@Surveillance:~$ Scanning ports...</div>
-    <div class="log">Raj@Surveillance:~$ Detecting anomalies...</div>
-  </section>
+    <aside>
+      <h3>📈 ট্রেন্ডিং</h3>
+      <ul>
+        <li><a href="#">নতুন সিনেমা রিভিউ</a></li>
+        <li><a href="#">সাইবার হামলার বিশ্লেষণ</a></li>
+        <li><a href="#">রাজনৈতিক বিতর্ক</a></li>
+      </ul>
+    </aside>
+  </main>
 
-  <section id="threats">
-    <div class="log">🚨 SQL Injection attempt blocked</div>
-    <div class="log">🚨 XSS payload detected</div>
-    <div class="log">🚨 Unauthorized access denied</div>
-    <div class="log">🚨 Port scan from suspicious IP</div>
-  </section>
-
-  <section id="cve">
-    <div class="log">📡 Fetching latest CVEs...</div>
-    <div id="cve-feed"></div>
-  </section>
-
-  <section id="ip">
-    <div class="log">📍 Tracking your IP...</div>
-    <div id="ip-log"></div>
-  </section>
-
-  <section id="report">
-    <div class="log">📤 Submit vulnerability report</div>
-    <button onclick="alert('Report submitted!')">Send Report</button>
-  </section>
-
-  <script>
-    function navigate(id) {
-      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-
-    // Live Clock
-    setInterval(() => {
-      const now = new Date();
-      document.getElementById("clock").textContent =
-        "🕒 " + now.toLocaleTimeString();
-    }, 1000);
-
-    // CVE Feed
-    fetch("https://cve.circl.lu/api/last")
-      .then(res => res.json())
-      .then(data => {
-        const feed = document.getElementById("cve-feed");
-        feed.innerHTML = "";
-        data.slice(0, 5).forEach(cve => {
-          feed.innerHTML += `<div class="log">🧠 ${cve.id}: ${cve.summary}</div>`;
-        });
-      });
-
-    // IP Tracker
-    fetch("https://ipinfo.io/json?token=7cf38aa60be900")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("ip-log").innerHTML = `
-          <div class="log">IP: ${data.ip} — ${data.city}, ${data.country} (${data.org})</div>`;
-      });
-  </script>
+  <footer>
+    <p>© ২০২৫ news247 | Powered by Raj</p>
+  </footer>
 </body>
 </html>
