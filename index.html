@@ -1,43 +1,181 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>news247 | সর্বশেষ খবর</title>
-  <link rel="stylesheet" href="style.css">
+  <title>🛡️ News247 Admin & Viewer</title>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #00ff99;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-shadow: 0 0 10px #00ff99;
+    }
+    input, textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background: #111;
+      color: #0f0;
+      border: 1px solid #0f0;
+    }
+    button {
+      background: #000;
+      color: #0f0;
+      border: 2px solid #0f0;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #0f0;
+      color: #000;
+    }
+    img {
+      margin: 10px 0;
+      border: 2px solid #00ff99;
+    }
+    hr {
+      border-color: #00ff99;
+    }
+    .viewer {
+      background: #111;
+      padding: 10px;
+      margin-top: 30px;
+      border: 1px solid #0f0;
+    }
+  </style>
 </head>
-<body>
-  <header>
-    <h1>🕶️ news247</h1>
-    <nav>
-      <a href="#">হোম</a>
-      <a href="#">বিনোদন</a>
-      <a href="#">রাজনীতি</a>
-      <a href="#">টেক</a>
-      <a href="admin/index.html">🛡️ Admin</a>
-    </nav>
-  </header>
+<body onload="loadNewsList()">
+  <h1>🕶️ News247 Admin Panel</h1>
 
-  <main>
-    <article>
-      <h2>🔥 আজকের হেডলাইন</h2>
-      <img src="https://via.placeholder.com/800x300" alt="নিউজ ইমেজ">
-      <p class="meta">লেখক: Raj | তারিখ: ২১ আগস্ট ২০২৫</p>
-      <p>এখানে নিউজ কনটেন্ট থাকবে। চাইলে Firebase DB দিয়ে dynamic করে নিতে পারো।</p>
-    </article>
+  <section>
+    <h2>📰 নিউজ আপলোড</h2>
+    <input type="text" id="title" placeholder="নিউজ শিরোনাম"><br>
+    <textarea id="content" placeholder="নিউজ কনটেন্ট"></textarea><br>
+    <input type="file" id="imageUpload"><br>
+    <button onclick="submitNews()">✅ নিউজ আপলোড করো</button>
+  </section>
 
-    <aside>
-      <h3>📈 ট্রেন্ডিং</h3>
-      <ul>
-        <li><a href="#">নতুন সিনেমা রিভিউ</a></li>
-        <li><a href="#">সাইবার হামলার বিশ্লেষণ</a></li>
-        <li><a href="#">রাজনৈতিক বিতর্ক</a></li>
-      </ul>
-    </aside>
-  </main>
+  <section>
+    <h2>🖼️ লোগো পরিবর্তন</h2>
+    <input type="file" id="logoUpload"><br>
+    <button onclick="uploadLogo()">🔄 লোগো আপলোড করো</button>
+  </section>
 
-  <footer>
-    <p>© ২০২৫ news247 | Powered by Raj</p>
-  </footer>
+  <section>
+    <h2>📋 সব নিউজ</h2>
+    <div id="newsList"></div>
+  </section>
+
+  <div class="viewer">
+    <h2>🌐 নিউজ ভিউয়ার</h2>
+    <div id="publicFeed"></div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQEZ0WIG92RzwI6e6TnBmTp4MgrYSMLBs",
+      authDomain: "news247-64290.firebaseapp.com",
+      databaseURL: "https://news247-64290-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "news247-64290",
+      storageBucket: "news247-64290.appspot.com",
+      messagingSenderId: "86736515101",
+      appId: "1:86736515101:web:061d198e92e4b46c3956f4",
+      measurementId: "G-BK7QNFZT96"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const storage = firebase.storage();
+
+    function submitNews() {
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+      const imageFile = document.getElementById('imageUpload').files[0];
+      const newsId = Date.now();
+
+      const imgRef = storage.ref(`news/${newsId}.jpg`);
+      imgRef.put(imageFile).then(() => {
+        imgRef.getDownloadURL().then(url => {
+          db.ref('news/' + newsId).set({
+            title: title,
+            content: content,
+            image: url,
+            timestamp: newsId
+          });
+          alert("✅ নিউজ আপলোড সফল!");
+        });
+      });
+    }
+
+    function uploadLogo() {
+      const logoFile = document.getElementById('logoUpload').files[0];
+      const logoRef = storage.ref('logo/logo.png');
+      logoRef.put(logoFile).then(() => {
+        alert("✅ লোগো আপলোড সফল!");
+      });
+    }
+
+    function loadNewsList() {
+      const newsList = document.getElementById('newsList');
+      const publicFeed = document.getElementById('publicFeed');
+      db.ref('news').on('value', snapshot => {
+        newsList.innerHTML = '';
+        publicFeed.innerHTML = '';
+        snapshot.forEach(child => {
+          const data = child.val();
+          const id = child.key;
+
+          const adminDiv = document.createElement('div');
+          adminDiv.innerHTML = `
+            <h3>${data.title}</h3>
+            <p>${data.content}</p>
+            <img src="${data.image}" width="200"><br>
+            <button onclick="editNews('${id}', '${data.title}', '${data.content}')">✏️ এডিট</button>
+            <button onclick="deleteNews('${id}')">❌ ডিলিট</button>
+            <hr>
+          `;
+          newsList.appendChild(adminDiv);
+
+          const publicDiv = document.createElement('div');
+          publicDiv.innerHTML = `
+            <h3>${data.title}</h3>
+            <img src="${data.image}" width="300"><br>
+            <p>${data.content}</p>
+            <hr>
+          `;
+          publicFeed.appendChild(publicDiv);
+        });
+      });
+    }
+
+    function deleteNews(id) {
+      if (confirm("নিশ্চিতভাবে ডিলিট করতে চাও?")) {
+        db.ref('news/' + id).remove().then(() => {
+          alert("✅ ডিলিট সফল!");
+        });
+      }
+    }
+
+    function editNews(id, oldTitle, oldContent) {
+      const newTitle = prompt("নতুন শিরোনাম:", oldTitle);
+      const newContent = prompt("নতুন কনটেন্ট:", oldContent);
+      if (newTitle && newContent) {
+        db.ref('news/' + id).update({
+          title: newTitle,
+          content: newContent
+        }).then(() => {
+          alert("✅ এডিট সফল!");
+        });
+      }
+    }
+  </script>
 </body>
 </html>
