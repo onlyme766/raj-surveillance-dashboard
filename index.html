@@ -1,85 +1,137 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <title>News247 | সর্বশেষ সংবাদ</title>
-  <meta name="description" content="বাংলাদেশের জাতীয়, আন্তর্জাতিক, খেলাধুলা, বিনোদন সহ সর্বশেষ সংবাদ">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://fonts.maateen.me/solaiman-lipi/font.css">
-  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-database.js"></script>
+  <meta charset="UTF-8">
+  <title>News247 | বাংলা নিউজ পোর্টাল</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="বাংলা ভাষায় সর্বশেষ জাতীয়, আন্তর্জাতিক, খেলাধুলা ও বিনোদন সংবাদ">
   <style>
-    body { font-family: 'SolaimanLipi', sans-serif; margin: 0; background: #f4f4f4; }
-    header { background: #d40000; color: white; padding: 15px; text-align: center; }
-    nav { background: #fff; padding: 10px; text-align: center; box-shadow: 0 2px 5px #ccc; }
-    nav a { margin: 0 10px; text-decoration: none; color: #d40000; font-weight: bold; }
-    .container { max-width: 900px; margin: auto; padding: 20px; }
-    .news-card { background: white; margin-bottom: 20px; padding: 15px; border-radius: 8px; box-shadow: 0 0 5px #ccc; }
-    .news-card img, .news-card video { max-width: 100%; margin-top: 10px; border-radius: 4px; }
-    .timestamp { font-size: 12px; color: #888; margin-top: 5px; }
-    footer { background: #222; color: #ccc; text-align: center; padding: 20px; margin-top: 40px; }
+    body {
+      font-family: 'SolaimanLipi', Arial, sans-serif;
+      margin: 0;
+      background-color: #f9f9f9;
+      color: #222;
+    }
+    header {
+      background-color: #d60000;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+    }
+    nav {
+      background-color: #fff;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #d60000;
+      font-weight: bold;
+    }
+    .ticker {
+      background-color: #fff3f3;
+      padding: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      box-shadow: inset 0 -1px 0 #ccc;
+    }
+    .ticker span {
+      display: inline-block;
+      animation: scroll 15s linear infinite;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .section {
+      padding: 20px;
+    }
+    .section h2 {
+      border-bottom: 2px solid #d60000;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
+    .news-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      margin-top: 20px;
+    }
+    footer {
+      background-color: #222;
+      color: #ccc;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+    }
   </style>
 </head>
 <body>
+
   <header>
     <h1>📰 News247</h1>
-    <p>সর্বশেষ সংবাদ, ভিডিও ও বিশ্লেষণ</p>
+    <p>বাংলা ভাষায় সর্বশেষ সংবাদ</p>
   </header>
 
   <nav>
-    <a href="#">জাতীয়</a>
-    <a href="#">আন্তর্জাতিক</a>
-    <a href="#">খেলাধুলা</a>
-    <a href="#">বিনোদন</a>
-    <a href="#">প্রযুক্তি</a>
+    <a href="#national">জাতীয়</a>
+    <a href="#international">আন্তর্জাতিক</a>
+    <a href="#sports">খেলাধুলা</a>
+    <a href="#entertainment">বিনোদন</a>
   </nav>
 
-  <div class="container" id="newsContainer"></div>
+  <div class="ticker">
+    <span>🔴 ব্রেকিং: নতুন বাজেট ঘোষণা | 🔴 আন্তর্জাতিক: ভারত-বাংলাদেশ সীমান্তে উত্তেজনা | 🔴 খেলাধুলা: মেসির দুর্দান্ত গোল | 🔴 বিনোদন: নতুন সিনেমা মুক্তি পাচ্ছে শুক্রবার</span>
+  </div>
+
+  <div class="section" id="national">
+    <h2>জাতীয়</h2>
+    <div class="news-card">
+      <h3>নতুন বাজেট ঘোষণা</h3>
+      <p>অর্থমন্ত্রী আজ সংসদে নতুন বাজেট উপস্থাপন করেছেন...</p>
+    </div>
+  </div>
+
+  <div class="section" id="international">
+    <h2>আন্তর্জাতিক</h2>
+    <div class="news-card">
+      <h3>ভারত-বাংলাদেশ সীমান্তে উত্তেজনা</h3>
+      <p>সীমান্তে নতুন করে সেনা মোতায়েন করা হয়েছে...</p>
+    </div>
+  </div>
+
+  <div class="section" id="sports">
+    <h2>খেলাধুলা</h2>
+    <div class="news-card">
+      <h3>মেসির দুর্দান্ত গোল</h3>
+      <p>ইন্টার মায়ামির হয়ে দুর্দান্ত পারফরম্যান্স...</p>
+    </div>
+  </div>
+
+  <div class="section" id="entertainment">
+    <h2>বিনোদন</h2>
+    <div class="news-card">
+      <h3>নতুন সিনেমা মুক্তি পাচ্ছে শুক্রবার</h3>
+      <p>পরিচালক রায়হানের নতুন সিনেমা নিয়ে দর্শকদের আগ্রহ...</p>
+    </div>
+  </div>
+
+  <iframe src="https://www.youtube.com/embed/live_stream?channel=CHANNEL_ID" allowfullscreen></iframe>
 
   <footer>
-    © 2025 News247 | Powered by Firebase & GitHub Pages
+    &copy; 2025 News247 | ডিজাইন ও ডেভেলপমেন্ট: Raj  
+    <br>🔗 Placeholder for Adsense integration
   </footer>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBQEZ0WIG92RzwI6e6TnBmTp4MgrYSMLBs",
-      authDomain: "news247-64290.firebaseapp.com",
-      databaseURL: "https://news247-64290-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "news247-64290",
-      storageBucket: "news247-64290.firebasestorage.app",
-      messagingSenderId: "86736515101",
-      appId: "1:86736515101:web:061d198e92e4b46c3956f4",
-      measurementId: "G-BK7QNFZT96"
-    };
-
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    function loadPublishedNews() {
-      const container = document.getElementById("newsContainer");
-      container.innerHTML = "";
-
-      db.ref("news").orderByChild("timestamp").on("value", snapshot => {
-        container.innerHTML = "";
-        snapshot.forEach(child => {
-          const data = child.val();
-          if (data.published) {
-            const div = document.createElement("div");
-            div.className = "news-card";
-            div.innerHTML = `
-              <h2>${data.title}</h2>
-              <p>${data.content}</p>
-              ${data.image ? `<img src="${data.image}" alt="ছবি">` : ""}
-              ${data.video ? `<video controls src="${data.video}"></video>` : ""}
-              <div class="timestamp">🕒 ${new Date(data.timestamp).toLocaleString("bn-BD")}</div>
-            `;
-            container.prepend(div);
-          }
-        });
-      });
-    }
-
-    window.onload = loadPublishedNews;
-  </script>
 </body>
 </html>
