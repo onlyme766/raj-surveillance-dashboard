@@ -2,136 +2,127 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>News247 | বাংলা নিউজ পোর্টাল</title>
+  <title>নিউজ২৪ | Bengali News Portal</title>
+  <meta name="description" content="বাংলা ভাষায় সর্বশেষ খবর পড়ুন।">
+  <meta name="keywords" content="বাংলা খবর, Jamuna style, নিউজ২৪, রাজ">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="বাংলা ভাষায় সর্বশেষ জাতীয়, আন্তর্জাতিক, খেলাধুলা ও বিনোদন সংবাদ">
+  <!-- Adsense Placeholder -->
+  <div id="adsense-placeholder">[Adsense Placeholder]</div>
   <style>
-    body {
-      font-family: 'SolaimanLipi', Arial, sans-serif;
-      margin: 0;
-      background-color: #f9f9f9;
-      color: #222;
-    }
-    header {
-      background-color: #d60000;
-      color: white;
-      padding: 10px 20px;
-      text-align: center;
-    }
-    nav {
-      background-color: #fff;
-      border-bottom: 1px solid #ccc;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 10px;
-    }
-    nav a {
-      text-decoration: none;
-      color: #d60000;
-      font-weight: bold;
-    }
-    .ticker {
-      background-color: #fff3f3;
-      padding: 10px;
-      overflow: hidden;
-      white-space: nowrap;
-      box-shadow: inset 0 -1px 0 #ccc;
-    }
-    .ticker span {
-      display: inline-block;
-      animation: scroll 15s linear infinite;
-    }
-    @keyframes scroll {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-    .section {
-      padding: 20px;
-    }
-    .section h2 {
-      border-bottom: 2px solid #d60000;
-      padding-bottom: 5px;
-      margin-bottom: 15px;
-    }
-    .news-card {
-      background: #fff;
-      border: 1px solid #ddd;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-    }
-    iframe {
-      width: 100%;
-      height: 300px;
-      border: none;
-      margin-top: 20px;
-    }
-    footer {
-      background-color: #222;
-      color: #ccc;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-    }
+    body { font-family: sans-serif; margin: 0; padding: 0; background: #f9f9f9; }
+    header { background: #d40000; color: white; padding: 10px; text-align: center; }
+    .container { padding: 20px; }
+    .hidden { display: none; }
+    .news-card { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background: white; }
+    input, textarea, select { width: 100%; margin-bottom: 10px; padding: 8px; }
+    button { padding: 10px 20px; background: #d40000; color: white; border: none; cursor: pointer; }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>📰 News247</h1>
-    <p>বাংলা ভাষায় সর্বশেষ সংবাদ</p>
+    <h1>নিউজ২৪ | Bengali News Portal</h1>
   </header>
 
-  <nav>
-    <a href="#national">জাতীয়</a>
-    <a href="#international">আন্তর্জাতিক</a>
-    <a href="#sports">খেলাধুলা</a>
-    <a href="#entertainment">বিনোদন</a>
-  </nav>
-
-  <div class="ticker">
-    <span>🔴 ব্রেকিং: নতুন বাজেট ঘোষণা | 🔴 আন্তর্জাতিক: ভারত-বাংলাদেশ সীমান্তে উত্তেজনা | 🔴 খেলাধুলা: মেসির দুর্দান্ত গোল | 🔴 বিনোদন: নতুন সিনেমা মুক্তি পাচ্ছে শুক্রবার</span>
+  <div class="container" id="login-panel">
+    <h2>🔐 অ্যাডমিন লগইন</h2>
+    <input type="text" id="username" placeholder="ইউজারনেম">
+    <input type="password" id="password" placeholder="পাসওয়ার্ড">
+    <button onclick="login()">লগইন করুন</button>
   </div>
 
-  <div class="section" id="national">
-    <h2>জাতীয়</h2>
-    <div class="news-card">
-      <h3>নতুন বাজেট ঘোষণা</h3>
-      <p>অর্থমন্ত্রী আজ সংসদে নতুন বাজেট উপস্থাপন করেছেন...</p>
-    </div>
+  <div class="container hidden" id="admin-panel">
+    <h2>📰 নতুন নিউজ যোগ করুন</h2>
+    <input type="text" id="title" placeholder="শিরোনাম">
+    <textarea id="description" placeholder="বিবরণ"></textarea>
+    <select id="category">
+      <option value="জাতীয়">জাতীয়</option>
+      <option value="আন্তর্জাতিক">আন্তর্জাতিক</option>
+      <option value="খেলাধুলা">খেলাধুলা</option>
+      <option value="বিনোদন">বিনোদন</option>
+    </select>
+    <input type="text" id="image" placeholder="ছবির URL">
+    <input type="text" id="video" placeholder="ভিডিও URL">
+    <button onclick="publishNews()">প্রকাশ করুন</button>
   </div>
 
-  <div class="section" id="international">
-    <h2>আন্তর্জাতিক</h2>
-    <div class="news-card">
-      <h3>ভারত-বাংলাদেশ সীমান্তে উত্তেজনা</h3>
-      <p>সীমান্তে নতুন করে সেনা মোতায়েন করা হয়েছে...</p>
-    </div>
+  <div class="container" id="viewer-panel">
+    <h2>📺 লাইভ টিভি</h2>
+    <!-- YouTube Placeholder -->
+    <div id="youtube-placeholder">[YouTube Live Placeholder]</div>
+
+    <h2>🔍 নিউজ ব্রাউজ করুন</h2>
+    <input type="text" id="search" placeholder="সার্চ করুন..." oninput="renderNews()">
+    <select id="filter-category" onchange="renderNews()">
+      <option value="">সব ক্যাটাগরি</option>
+      <option value="জাতীয়">জাতীয়</option>
+      <option value="আন্তর্জাতিক">আন্তর্জাতিক</option>
+      <option value="খেলাধুলা">খেলাধুলা</option>
+      <option value="বিনোদন">বিনোদন</option>
+    </select>
+    <input type="date" id="filter-date" onchange="renderNews()">
+    <div id="news-list"></div>
   </div>
 
-  <div class="section" id="sports">
-    <h2>খেলাধুলা</h2>
-    <div class="news-card">
-      <h3>মেসির দুর্দান্ত গোল</h3>
-      <p>ইন্টার মায়ামির হয়ে দুর্দান্ত পারফরম্যান্স...</p>
-    </div>
-  </div>
+  <script>
+    const loginPanel = document.getElementById('login-panel');
+    const adminPanel = document.getElementById('admin-panel');
+    const viewerPanel = document.getElementById('viewer-panel');
 
-  <div class="section" id="entertainment">
-    <h2>বিনোদন</h2>
-    <div class="news-card">
-      <h3>নতুন সিনেমা মুক্তি পাচ্ছে শুক্রবার</h3>
-      <p>পরিচালক রায়হানের নতুন সিনেমা নিয়ে দর্শকদের আগ্রহ...</p>
-    </div>
-  </div>
+    function login() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      if (u === 'onlyme766' && p === 'Rahim4545R') {
+        loginPanel.classList.add('hidden');
+        adminPanel.classList.remove('hidden');
+      } else {
+        alert('ভুল ইউজারনেম বা পাসওয়ার্ড!');
+      }
+    }
 
-  <iframe src="https://www.youtube.com/embed/live_stream?channel=CHANNEL_ID" allowfullscreen></iframe>
+    function publishNews() {
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const category = document.getElementById('category').value;
+      const image = document.getElementById('image').value;
+      const video = document.getElementById('video').value;
+      const date = new Date().toISOString().split('T')[0];
 
-  <footer>
-    &copy; 2025 News247 | ডিজাইন ও ডেভেলপমেন্ট: Raj  
-    <br>🔗 Placeholder for Adsense integration
-  </footer>
+      const news = { title, description, category, image, video, date };
+      const allNews = JSON.parse(localStorage.getItem('news') || '[]');
+      allNews.unshift(news);
+      localStorage.setItem('news', JSON.stringify(allNews));
+      alert('নিউজ প্রকাশিত হয়েছে!');
+      renderNews();
+    }
 
+    function renderNews() {
+      const list = document.getElementById('news-list');
+      const allNews = JSON.parse(localStorage.getItem('news') || '[]');
+      const search = document.getElementById('search').value.toLowerCase();
+      const category = document.getElementById('filter-category').value;
+      const date = document.getElementById('filter-date').value;
+
+      list.innerHTML = '';
+      allNews.filter(n => {
+        return (!search || n.title.toLowerCase().includes(search) || n.description.toLowerCase().includes(search)) &&
+               (!category || n.category === category) &&
+               (!date || n.date === date);
+      }).forEach(n => {
+        const card = document.createElement('div');
+        card.className = 'news-card';
+        card.innerHTML = `
+          <h3>${n.title}</h3>
+          <p>${n.description}</p>
+          <p><strong>ক্যাটাগরি:</strong> ${n.category}</p>
+          <p><strong>তারিখ:</strong> ${n.date}</p>
+          ${n.image ? `<img src="${n.image}" width="100%">` : ''}
+          ${n.video ? `<div><a href="${n.video}" target="_blank">ভিডিও দেখুন</a></div>` : ''}
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    renderNews();
+  </script>
 </body>
 </html>
