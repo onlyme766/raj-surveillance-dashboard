@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel | news247</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'SolaimanLipi', sans-serif; background: #fff; margin: 0; }
+    .login-box, .admin-panel { max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; }
+    input, textarea { width: 100%; padding: 10px; margin: 10px 0; }
+    button { background: #d60000; color: white; padding: 10px; border: none; width: 100%; }
+    img { max-width: 100%; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="login-box" id="login">
+    <h2>এডমিন লগইন</h2>
+    <input type="text" id="username" placeholder="ইউজারনেম">
+    <input type="password" id="password" placeholder="পাসওয়ার্ড">
+    <button onclick="login()">লগইন করুন</button>
+    <p id="msg" style="color:red;"></p>
+  </div>
+
+  <div class="admin-panel" id="panel" style="display:none;">
+    <h2>নতুন নিউজ প্রকাশ করুন</h2>
+    <input type="text" id="headline" placeholder="শিরোনাম লিখুন">
+    <textarea rows="5" id="content" placeholder="নিউজ বিস্তারিত লিখুন"></textarea>
+    <input type="file" id="thumb" accept="image/*" onchange="previewThumb()">
+    <img id="preview" src="" alt="Thumbnail Preview">
+    <button onclick="publish()">প্রকাশ করুন</button>
+  </div>
+
+  <script>
+    function login() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      if (u === 'onlyme766' && p === 'Rahim4545R') {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('panel').style.display = 'block';
+      } else {
+        document.getElementById('msg').innerText = 'ভুল ইউজারনেম বা পাসওয়ার্ড!';
+      }
+    }
+
+    function previewThumb() {
+      const file = document.getElementById('thumb').files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('preview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function publish() {
+      const headline = document.getElementById('headline').value;
+      const content = document.getElementById('content').value;
+      if (headline && content) {
+        alert("✅ নিউজ প্রকাশিত: " + headline);
+      } else {
+        alert("⚠️ শিরোনাম ও বিস্তারিত লিখুন");
+      }
+    }
+  </script>
+</body>
+</html>
